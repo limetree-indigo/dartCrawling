@@ -63,14 +63,14 @@ for page in range(1, totalPageNumber+1):
         link = browser.find_element(By.CSS_SELECTOR, ".table_list tr:nth-child("+str(num)+")>td:nth-child(3)>a") # 보고서 다운로드 링크
 
         if searchYear in link.text and searchMonth in link.text:
-            link.send_keys(Keys.CONTROL + "\n")
+            link.send_keys(Keys.COMMAND + "\n")
             time.sleep(1)
 
             browser.switch_to.window(browser.window_handles[1])
-            browser.find_element(By.XPATH, "//a[@href='#download']").send_keys(Keys.CONTROL + "\n")
+            browser.find_element(By.XPATH, "//a[@href='#download']").send_keys(Keys.COMMAND + "\n")
             time.sleep(1)
             browser.switch_to.window(browser.window_handles[2])
-            browser.find_element(By.CSS_SELECTOR, "table tr:nth-child(2)>td:nth-child(2)>a").send_keys(Keys.CONTROL + "\n") # 파일 다운로드
+            browser.find_element(By.CSS_SELECTOR, "table tr:nth-child(2)>td:nth-child(2)>a").send_keys(Keys.COMMAND + "\n") # 파일 다운로드
             downloadCount += 1
             time.sleep(1)
             browser.close()
