@@ -5,9 +5,6 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import time
 
-# 정기 보고서 중에서 사업보고서 다운로드 받고자함
-# 유가증권, 코스닥 상장 기업만 다운 받고자 함
-# 종목번호 + 연도의 형태로 파일을 다운 받고자함
 
 '''------기본설정----------'''
 url = "http://dart.fss.or.kr/"
