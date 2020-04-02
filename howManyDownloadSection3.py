@@ -48,19 +48,15 @@ browser.execute_script("arguments[0].click();", e)  # 사업보고서 체크박�
 browser.find_element(By.CSS_SELECTOR, ".btn>.ibtn").click()  # 검색버튼 클릭하기
 browser.find_element(By.CSS_SELECTOR, "#maxResultsCb>option:last-child").click()
 browser.find_element(By.CSS_SELECTOR, "#searchpng").click()
+browser.find_element(By.XPATH, "(//input[@alt='다음'])").click() #page11에서 시작
 
-pages = browser.find_elements(By.XPATH, "//input[@type='button']") # 검색 페이지 수
-
-totalPageNumber = browser.find_element(By.CSS_SELECTOR, ".page_info").text.split(']')
-totalPageNumber = totalPageNumber[0].split('/')
-totalPageNumber = int(totalPageNumber[1])
-
-print(startDate, '~', endDate, ':', '사업보고서(', searchYear, '.', searchMonth, ')')
+print(startDate, '~', endDate, ':', '사업보고서(', searchYear, '.', searchMonth, ')', 'page11~15')
 
 종목코드들 = []
 
+
 for page in range(1, 6):
-    print("다운로드 진행상황: ", page, '/', 5)
+    print("다운로드 진행상황: ", page+10, '/', 15)
     companies = browser.find_elements(By.CSS_SELECTOR, ".table_list tbody>tr")  # 회사목록
 
     for n in range(1, len(companies) + 1):
@@ -84,5 +80,4 @@ for page in range(1, 6):
 
 time.sleep(0.5)
 browser.close()
-print(startDate, '~', endDate, ':', '사업보고서(', searchYear, '.', searchMonth, ')', 'page1~5')
-print(len(종목코드들), '건')
+print('다운로드 파일 개수:', len(종목코드들), '건')

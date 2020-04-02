@@ -49,23 +49,14 @@ browser.find_element(By.CSS_SELECTOR, ".btn>.ibtn").click()  # 검색버튼 클�
 browser.find_element(By.CSS_SELECTOR, "#maxResultsCb>option:last-child").click()
 browser.find_element(By.CSS_SELECTOR, "#searchpng").click()
 
-pages = browser.find_elements(By.XPATH, "//input[@type='button']") # 검색 페이지 수
-
-totalPageNumber = browser.find_element(By.CSS_SELECTOR, ".page_info").text.split(']')
-totalPageNumber = totalPageNumber[0].split('/')
-totalPageNumber = int(totalPageNumber[1])
-
-print(startDate, '~', endDate, ':', '사업보고서(', searchYear, '.', searchMonth, ')')
-
-companies = browser.find_elements(By.CSS_SELECTOR, ".table_list tbody>tr")
-print(len(companies))
+print(startDate, '~', endDate, ':', '사업보고서(', searchYear, '.', searchMonth, ')', 'page1~5')
 
 종목코드들 = []
 종목코드별다운로드파일이름 = {}
 
 
-for page in range(1, totalPageNumber+1):
-    print("다운로드 진행상황: ", page, '/', totalPageNumber)
+for page in range(1, 6):
+    print("다운로드 진행상황: ", page, '/', 5)
     companies = browser.find_elements(By.CSS_SELECTOR, ".table_list tbody>tr")  # 회사목록
 
     for n in range(1, len(companies) + 1):
@@ -78,7 +69,7 @@ for page in range(1, totalPageNumber+1):
             종목코드 = browser.find_element(By.CSS_SELECTOR, "#pop_body tr:nth-child(4)>td").text
             if not 종목코드 in 종목코드들:
                 종목코드들.append(종목코드)
-                browser.find_element(By.CSS_SELECTOR, "#closePop").click()
+                browser.find_element(By.CSS_SELECTOR, "#ext-gen81").click()
                 link = browser.find_element(By.CSS_SELECTOR,
                                             ".table_list tr:nth-child(" + str(n) + ")>td:nth-child(3)>a")  # 보고서 다운로드 링크
 
@@ -93,7 +84,7 @@ for page in range(1, totalPageNumber+1):
                     browser.switch_to.window(browser.window_handles[2])
                     downloadFile = browser.find_element(By.CSS_SELECTOR, "table tr:nth-child(2)>td:nth-child(1)").text
                     downloadFile = downloadFile.split("(")[1].split(".")[0]
-                    종목코드별다운로드파일이름[종목코드] = downloadFile
+                    종목코드별다운로드파일이름[downloadFile] = 종목코드
                     browser.find_element(By.CSS_SELECTOR, "table tr:nth-child(2)>td:nth-child(2)>a").send_keys(Keys.CONTROL + "\n") # 파일 다운로드
                     downloadCount += 1
                     time.sleep(1)
@@ -104,12 +95,10 @@ for page in range(1, totalPageNumber+1):
                     browser.switch_to.window(browser.window_handles[0])
                     time.sleep(0.5)
             else:
-                browser.find_element(By.CSS_SELECTOR, "#closePop").click()
+                browser.find_element(By.CSS_SELECTOR, "#ext-gen81").click()
 
-    if (page % 10) and (page != totalPageNumber):
-        browser.find_element(By.XPATH, "(//input[@type='button'])["+str(page%10)+"]").click()
-    if (not (page % 10)) and (page != totalPageNumber):
-        browser.find_element(By.XPATH, "(//input[@alt='다음'])").click()
+    if page<5:
+        browser.find_element(By.XPATH, "(//input[@type='button'])["+str(page)+"]").click()
 
 print(len(종목코드들))
 

@@ -13,7 +13,7 @@ url = "http://dart.fss.or.kr/"
 prefs = {"download.default_directory": "C:\\Users\\UpC\\Desktop\\crawlingTest"}
 chromeOptions = Options()
 chromeOptions.add_experimental_option("prefs", prefs)
-chromeDriver = "C:/Users/UpC/Desktop/dartCrawling/chromedriver.exe"
+chromeDriver = "C:/Users/디랩 학생/Desktop/dartCrawling/chromedriver.exe"
 
 browser = webdriver.Chrome(chromeDriver, options=chromeOptions)
 browser.implicitly_wait(5)
@@ -49,18 +49,12 @@ browser.find_element(By.CSS_SELECTOR, ".btn>.ibtn").click()  # 검색버튼 클�
 browser.find_element(By.CSS_SELECTOR, "#maxResultsCb>option:last-child").click()
 browser.find_element(By.CSS_SELECTOR, "#searchpng").click()
 
-pages = browser.find_elements(By.XPATH, "//input[@type='button']") # 검색 페이지 수
-
-totalPageNumber = browser.find_element(By.CSS_SELECTOR, ".page_info").text.split(']')
-totalPageNumber = totalPageNumber[0].split('/')
-totalPageNumber = int(totalPageNumber[1])
-
-print(startDate, '~', endDate, ':', '사업보고서(', searchYear, '.', searchMonth, ')')
+print(startDate, '~', endDate, ':', '사업보고서(', searchYear, '.', searchMonth, ')', 'page1~5')
 
 종목코드들 = []
 
-for page in range(1, totalPageNumber+1):
-    print("다운로드 진행상황: ", page, '/', totalPageNumber)
+for page in range(1, 6):
+    print("다운로드 진행상황: ", page, '/', 5)
     companies = browser.find_elements(By.CSS_SELECTOR, ".table_list tbody>tr")  # 회사목록
 
     for n in range(1, len(companies) + 1):
@@ -78,13 +72,10 @@ for page in range(1, totalPageNumber+1):
             else:
                 browser.find_element(By.CSS_SELECTOR, "#ext-gen81").click()
 
-    if (page % 10) and (page != totalPageNumber):
-        browser.find_element(By.XPATH, "(//input[@type='button'])["+str(page%10)+"]").click()
-    if (not (page % 10)) and (page != totalPageNumber):
-        browser.find_element(By.XPATH, "(//input[@alt='다음'])").click()
+    if page<5:
+        browser.find_element(By.XPATH, "(//input[@type='button'])["+str(page)+"]").click()
     browser.implicitly_wait(3)
 
 time.sleep(0.5)
 browser.close()
-print(startDate, '~', endDate, ':', '감사보고서(', searchYear, '.', searchMonth, ')')
-print(len(종목코드들), '건')
+print('다운로드 파일 개수:', len(종목코드들), '건')

@@ -48,13 +48,14 @@ browser.execute_script("arguments[0].click();", e)  # 사업보고서 체크박�
 browser.find_element(By.CSS_SELECTOR, ".btn>.ibtn").click()  # 검색버튼 클릭하기
 browser.find_element(By.CSS_SELECTOR, "#maxResultsCb>option:last-child").click()
 browser.find_element(By.CSS_SELECTOR, "#searchpng").click()
+browser.find_element(By.XPATH, "(//input[@type='button'])[5]").click()
 
-print(startDate, '~', endDate, ':', '사업보고서(', searchYear, '.', searchMonth, ')', 'page1~5')
+print(startDate, '~', endDate, ':', '사업보고서(', searchYear, '.', searchMonth, ')', 'page6~10')
 
 종목코드들 = []
 
-for page in range(1, 6):
-    print("다운로드 진행상황: ", page, '/', 5)
+for page in range(6, 11):
+    print("다운로드 진행상황: ", page, '/', 10)
     companies = browser.find_elements(By.CSS_SELECTOR, ".table_list tbody>tr")  # 회사목록
 
     for n in range(1, len(companies) + 1):
@@ -72,7 +73,7 @@ for page in range(1, 6):
             else:
                 browser.find_element(By.CSS_SELECTOR, "#ext-gen81").click()
 
-    if page<5:
+    if page<10:
         browser.find_element(By.XPATH, "(//input[@type='button'])["+str(page)+"]").click()
     browser.implicitly_wait(3)
 
